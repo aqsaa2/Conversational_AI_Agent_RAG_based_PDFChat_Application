@@ -530,7 +530,7 @@ def load_doc_to_db():
         if docs:
             _split_and_load_docs(docs)
             st.toast(f"Document(s) {', '.join([doc_file for doc_file in st.session_state.rag_sources])} loaded successfully.", icon="✅")
-            handle_business_analysis_conversation()
+            handle_conversation()
             st.session_state["documents_uploaded"] = True # set to true if document is uploaded
     else:
         st.session_state["documents_uploaded"] = False # set to false if documents are not uploaded
