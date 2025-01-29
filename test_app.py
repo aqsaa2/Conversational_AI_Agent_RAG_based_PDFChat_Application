@@ -39,6 +39,10 @@ from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.schema import HumanMessage, AIMessage
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import chromadb
 from chromadb import PersistentClient
 
 logging.basicConfig(level=logging.INFO)
@@ -51,11 +55,12 @@ collection = chroma_client.get_or_create_collection(name="my_collection")
 os.environ["USER_AGENT"] = "myagent"
 DB_DOCS_LIMIT = 40
 
-XAI_API_KEY = os.getenv("XAI_API_KEY")
-client = OpenAI(
-    api_key=XAI_API_KEY,
-    base_url="https://api.x.ai/v1",
-)
+# XAI_API_KEY = os.getenv("XAI_API_KEY")
+# client = OpenAI(
+#     api_key=XAI_API_KEY,
+#     base_url="https://api.x.ai/v1",
+# )
+
 google_api_key = os.environ["GOOGLE_API_KEY"]
 LLM_CALL_DELAY = int(os.environ.get("LLM_CALL_DELAY", 1))
 INITIAL_LLM_CALL_DELAY = int(os.environ.get("INITIAL_LLM_CALL_DELAY", 1))
