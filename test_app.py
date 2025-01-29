@@ -280,11 +280,7 @@ def display_all_chroma_data():
 
 def initialize_business_questions():
     questions = [
-        "What is your business's industry?",
-        "What is your business website?",
-        "What government entities govern and regulate your core business industry?",
-        "Who are the beneficiaries of your business?",
-        "What are the services or products you deliver to your beneficiaries?"
+        "I have received your document, what do you want me to help you with?"
     ]
     return questions
 
