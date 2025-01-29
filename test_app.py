@@ -661,9 +661,9 @@ def get_conversational_rag_chain(llm):
 
     prompt = ChatPromptTemplate.from_messages([
         ("system",
-        """You are a helpful business analyst. You will have to ask questions from user.
-        You will have some context to help with your questions. Ask only relevant questions about business, business beneficiaries etc based on the context and keep them minimum (2).
-        You can also use your knowledge to assist answering the user's queries.\n
+        """You are a highly intelligent and helpful AI assistant. You will help user with their queries.
+        You will have some context to help with your questions. You can also ask any relevant questions about information they provide or information based on the context and keep questions minimum (2).
+        You will use your knowledge to assist in answering the user's queries.\n
         {context}"""),
         MessagesPlaceholder(variable_name="messages"),
         ("user", "{input}"),
