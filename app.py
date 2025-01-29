@@ -18,11 +18,12 @@ from test_app import (
     get_stored_data,
     get_user_responses_from_db,
 )
-
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
 import chromadb
 from chromadb import PersistentClient
 
-# Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -443,46 +444,6 @@ else:
                     # Use RAG for responses when enabled and vector DB is available
                     store_user_responses_to_db(prompt, st.session_state.session_id)  # Save user response to Chroma DB
                     st.write_stream(stream_llm_rag_response(llm_stream, messages))
-
-                # Check to see if enough user input has been gathered to generate artifacts
-                if st.session_state.user_input_count >= 5:
-                    stored_data = get_stored_data() 
-                    user_responses = get_user_responses_from_db(st.session_state.session_id) 
-
-                    if stored_data:
-                        # Generate Personas
-                        try:
-                            personas = generate_personas(stored_data, user_responses)
-                            st.session_state.tree_data["Personas"] = personas
-                        except Exception as e:
-                            logger.error(f"Error generating personas: {e}")
-                            st.session_state.tree_data["Personas"] = ["Error generating personas. Check Logs."]
-
-                        # Generate User Stories
-                        try:
-                            user_stories = []
-                            for persona in personas:
-                                stories = generate_user_stories(persona, stored_data, user_responses)
-                                user_stories.extend(stories)
-                            st.session_state.tree_data["User Stories"] = user_stories
-                        except Exception as e:
-                            logger.error(f"Error generating user stories: {e}")
-                            st.session_state.tree_data["User Stories"] = ["Error generating user stories. Check Logs."]
-
-                        # Generate Gherkin Scenarios
-                        try:
-                            gherkin_scenarios = []
-                            for user_story in user_stories:
-                                scenarios = generate_gherkin_scenarios(user_story, stored_data, user_responses)
-                                gherkin_scenarios.extend(scenarios)
-                            st.session_state.tree_data["Business Scenarios"] = gherkin_scenarios
-                        except Exception as e:
-                            logger.error(f"Error generating Gherkin scenarios: {e}")
-                            st.session_state.tree_data["Business Scenarios"] = ["Error generating Gherkin scenarios. Check Logs."]
-
-                        # Display the updated tree with expanders
-                        df = save_and_display_as_csv(personas, user_stories, gherkin_scenarios)
-                        # display_tree_with_expanders()
 
     except Exception as e:
         logger.error(f"Error in main chat interface: {e}")
