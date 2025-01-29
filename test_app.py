@@ -278,7 +278,7 @@ def display_all_chroma_data():
 # /////////////////////////////////////////////////////////////////////
         
 
-def initialize_business_questions():
+def initialize_conversation():
     questions = [
         "I have received your document, what do you want me to help you with?"
     ]
@@ -286,9 +286,9 @@ def initialize_business_questions():
 
 
     
-def handle_business_analysis_conversation():
+def handle_conversation():
     if "business_questions" not in st.session_state:
-        st.session_state.business_questions = initialize_business_questions()
+        st.session_state.business_questions = initialize_conversation()
         st.session_state.business_answers = []
 
     
